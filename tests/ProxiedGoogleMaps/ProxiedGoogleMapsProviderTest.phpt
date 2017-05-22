@@ -2,32 +2,29 @@
 
 /**
  * Test: Kdyby\Geocoder\Provider\ProxiedGoogleMaps\ProxiedGoogleMapsProvider.
+ *
  * @testCase
  */
 
 namespace KdybyTests\Geocoder\Provider\ProxiedGoogleMaps;
 
-use Kdyby;
+use Ivory\HttpAdapter\HttpAdapterInterface;
+use Ivory\HttpAdapter\Message\ResponseInterface;
 use Kdyby\Geocoder\Provider\ProxiedGoogleMaps\ProxiedGoogleMapsProvider;
-use Tester;
+use Mockery;
 use Tester\Assert;
 
 require_once __DIR__ . '/bootstrap.php';
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class ProxiedGoogleMapsProviderTest extends Tester\TestCase
+class ProxiedGoogleMapsProviderTest extends \Tester\TestCase
 {
 
 	public function testGeocode()
 	{
 		/** @var \Mockery\Mock|\Ivory\HttpAdapter\HttpAdapterInterface $adapter */
-		$adapter = \Mockery::mock(\Ivory\HttpAdapter\HttpAdapterInterface::class)->shouldDeferMissing();
+		$adapter = Mockery::mock(HttpAdapterInterface::class)->shouldDeferMissing();
 		$adapter->shouldReceive('get')->once()->andReturnUsing(function () {
-			$response = \Mockery::mock(\Ivory\HttpAdapter\Message\ResponseInterface::class)->shouldDeferMissing();
+			$response = Mockery::mock(ResponseInterface::class)->shouldDeferMissing();
 			$response->shouldReceive('getBody')->andReturn(file_get_contents(__DIR__ . '/data/soukenicka_5_brno.json'));
 			return $response;
 		})->withArgs(['https://geocoder.kdyby.org/?address=Soukenick%C3%A1%205%2C%20Brno&language=cs_CZ&region=CZ&key=nemam']);

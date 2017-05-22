@@ -31,7 +31,9 @@
 		}
 	},
 	"autoload-dev": {
-		"classmap": ["tests/KdybyTests/"]
+		"psr-4": {
+			"KdybyTests\\Geocoder\\Provider\\ProxiedGoogleMaps\\": "tests/ProxiedGoogleMaps/"
+		}
 	},
 	"extra": {
 		"branch-alias": {

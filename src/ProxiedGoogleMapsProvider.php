@@ -10,15 +10,9 @@
 
 namespace Kdyby\Geocoder\Provider\ProxiedGoogleMaps;
 
-use Geocoder\Provider\GoogleMaps;
 use Ivory\HttpAdapter\HttpAdapterInterface;
 
-
-
-/**
- * @author Filip Procházka <filip@prochazka.su>
- */
-class ProxiedGoogleMapsProvider extends GoogleMaps
+class ProxiedGoogleMapsProvider extends \Geocoder\Provider\GoogleMaps
 {
 
 	/**
@@ -26,22 +20,16 @@ class ProxiedGoogleMapsProvider extends GoogleMaps
 	 */
 	private $proxy;
 
-
-
 	public function __construct(HttpAdapterInterface $adapter, $proxy, $locale = NULL, $region = NULL, $apiKey = NULL)
 	{
 		parent::__construct($adapter, $locale, $region, TRUE, $apiKey);
 		$this->proxy = $proxy;
 	}
 
-
-
 	protected function buildQuery($query)
 	{
 		return parent::buildQuery($this->proxy . '?' . parse_url($query, PHP_URL_QUERY));
 	}
-
-
 
 	public function getName()
 	{
